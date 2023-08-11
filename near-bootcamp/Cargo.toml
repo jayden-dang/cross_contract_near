@@ -1,0 +1,21 @@
+[package]
+name = "near-bootcamp"
+authors = ["Dang Quang Vu <eamondang@gmail.com>"]
+edition = "2021"
+version = "0.1.0"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib"]
+
+[profile.release]
+codegen-units = 1
+debug = false
+lto = true
+opt-level = "z"
+overflow-checks = true
+panic = "abort"
+
+[dependencies]
+near-sdk = "4.1.1"
+serde = { version = "1.0.178", features = ["derive"] }

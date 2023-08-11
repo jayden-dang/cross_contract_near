@@ -1,0 +1,62 @@
+#+begin_src sh :results output :session share
+export pool_contract=dev-1691760216493-83287990439185
+export elearning_contract=dev-1691760282672-35222846508853
+#+end_src
+
+#+begin_src sh :results output
+near state dev-1691760216493-83287990439185
+#+end_src
+
+#+RESULTS:
+#+begin_example
+Account dev-1691760216493-83287990439185
+{
+  amount: '219982325462455971100000000',
+  block_hash: '4zW12VuDFsRG25N9DndEtYomWgLGFSdVoJ37eyVSM9rc',
+  block_height: 134591794,
+  code_hash: '9zgG817EDZjz2wPWMTteXCJwTErTNAYrxETfMzyVamzt',
+  locked: '0',
+  storage_paid_at: 0,
+  storage_usage: 361062,
+  formattedAmount: '219.9823254624559711'
+}
+#+end_example
+
+#+begin_src sh :results output :session share
+near call $elearning_contract create_pool '{"param" : false}' --account-id eamondangdev.testnet
+#+end_src
+
+
+#+begin_src sh :results output :session share
+near call $pool_contract stake "{\"elearning_id\": \"$elearning_contract\", \"amount\":1, \"param\": false}" --account-id eamondangdev.testnet --amount 8
+#+end_src
+
+#+RESULTS:
+: Scheduling a call: dev-1691760216493-83287990439185.stake({"elearning_id": "dev-1691760282672-35222846508853", "amount":1, "param": false}) with attached 8 NEAR
+: Doing account.functionCall()
+: Transaction Id 7Rxx6uEdt1nhXYYr93mj6SwLzaaoAAmqYyZfSjq8w51f
+: To see the transaction in the transaction explorer, please open this url in your browser
+: https://explorer.testnet.near.org/transactions/7Rxx6uEdt1nhXYYr93mj6SwLzaaoAAmqYyZfSjq8w51f
+: ''
+
+#+begin_src sh :results output
+signer =>
+predesecsor =>
+#+end_src
+
+A => B
+signer = A
+predesecsor = A
+
+A => B => C
+signer A
+pre B
+
+A => B => C => D
+signer A
+pre C => B
+pre D => C
+
+#+begin_src sh :results output :session share
+near view $pool_contract view_count
+#+end_src

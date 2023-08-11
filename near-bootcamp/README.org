@@ -1,0 +1,193 @@
+#+TITLE: Started Template - Near Smartcontract
+#+AUTHOR: Dang Quang Vu
+#+EMAIL: eamondang@gmail.com
+#+SETUPFILE: ~/theme-readtheorg.setup
+#+HTML_HEAD: <style>pre.src{background:#343131;color:white;} </style>
+
++ Quickly build apps backed by the NEAR blockchain
++ Prerequisites
+
+#+begin_quote
++ Make sure you have a current version of Node.js & Rust installed => We recommend versions 18+ & rust 1.69
+#+end_quote
+
++ Requirements
+  + Cargo Make
+    #+begin_src sh :results output
+    cargo install cargo-make
+    cargo install cargo-generate
+    #+end_src
+
+  + Install Near Cli
+    #+begin_src sh :results output
+    npm install -g near-cli
+    #+end_src
+
+* Getting Started
+** Clone the repository
+#+begin_src sh :results output
+cargo generate --git https://github.com/eamondang/template-near-contract --name near-template
+#+end_src
+
+* Step by Step
+#+begin_quote
+Read more infomation in =Makefile.toml=
+#+end_quote
+
++ Prepare
+#+begin_src sh :results output
+cargo make prepare
+#+end_src
+
++ Build Contract
+#+begin_src sh :results output
+cargo make build
+#+end_src
+
++ deploy Contract
+#+begin_src sh :results output
+cargo make dev-deploy
+#+end_src
+
+* CLi
+#+begin_src sh :results output
+cargo make call-self init
+#+end_src
+
+#+RESULTS:
+#+begin_example
+[cargo-make] INFO - cargo make 0.36.12
+[cargo-make] INFO - Calling cargo metadata to extract project info
+[cargo-make] INFO - Cargo metadata done
+[cargo-make] INFO - Project: near-bootcamp
+[cargo-make] INFO - Build File: Makefile.toml
+[cargo-make] INFO - Task: call-self
+[cargo-make] INFO - Profile: development
+[cargo-make] INFO - Running Task: legacy-migration
+[cargo-make] INFO - Running Task: call-self
+[cargo-make] INFO - Execute Command: "/usr/bin/env" "zsh" "/var/folders/ms/ch4m6m4919l6sdqfj5890q8r0000gn/T/fsio_3W5TGldkHh.sh" "init"
+Scheduling a call: dev-1691760282672-35222846508853.init()
+Doing account.functionCall()
+Transaction Id 6YNvYLWqGW7ic5yfn9jhNFEKs1dSjoddZmN7DjDC6Ls2
+To see the transaction in the transaction explorer, please open this url in your browser
+https://explorer.testnet.near.org/transactions/6YNvYLWqGW7ic5yfn9jhNFEKs1dSjoddZmN7DjDC6Ls2
+''
+[cargo-make] INFO - Build Done in 12.35 seconds.
+#+end_example
+
+#+begin_src sh :results output
+cargo make call create_user '{"name": "Eamon", "age": 29}' --account-id eamondangdev.testnet
+#+end_src
+
+#+begin_src sh :results output
+cargo make view view_all_user
+#+end_src
+
+#+begin_src sh :results output
+cargo make call create_course '{"course_id":"near1", "content": "update later", "price": 1}' --account-id eamondangdev.testnet
+#+end_src
+
+#+begin_src sh :results output
+cargo make view get_course_by_id '{"course_id":"near1"}'
+#+end_src
+
+#+RESULTS:
+#+begin_example
+[cargo-make] INFO - cargo make 0.36.12
+[cargo-make] INFO - Calling cargo metadata to extract project info
+[cargo-make] INFO - Cargo metadata done
+[cargo-make] INFO - Project: near-bootcamp
+[cargo-make] INFO - Build File: Makefile.toml
+[cargo-make] INFO - Task: view
+[cargo-make] INFO - Profile: development
+[cargo-make] INFO - Running Task: legacy-migration
+[cargo-make] INFO - Running Task: view
+[cargo-make] INFO - Execute Command: "/usr/bin/env" "zsh" "/var/folders/ms/ch4m6m4919l6sdqfj5890q8r0000gn/T/fsio_A5wTXsxMnN.sh" "get_course_by_id" "{\"course_id\":\"near1\"}"
+View call: dev-1691156143700-14312924586000.get_course_by_id({"course_id":"near1"})
+{
+  course_id: 'near1',
+  content: 'update later',
+  price: 1,
+  students: 0,
+  students_completed: 0
+}
+[cargo-make] INFO - Build Done in 11.70 seconds.
+#+end_example
+
+
+#+begin_src sh :results output
+cargo make call update_course '{"course_id":"near1", "price": 5}' --account-id eamondangdev.testnet
+#+end_src
+
+#+RESULTS:
+#+begin_example
+[cargo-make] INFO - cargo make 0.36.12
+[cargo-make] INFO - Calling cargo metadata to extract project info
+[cargo-make] INFO - Cargo metadata done
+[cargo-make] INFO - Project: near-bootcamp
+[cargo-make] INFO - Build File: Makefile.toml
+[cargo-make] INFO - Task: call
+[cargo-make] INFO - Profile: development
+[cargo-make] INFO - Running Task: legacy-migration
+[cargo-make] INFO - Running Task: call
+[cargo-make] INFO - Execute Command: "/usr/bin/env" "zsh" "/var/folders/ms/ch4m6m4919l6sdqfj5890q8r0000gn/T/fsio_IGq8piBkdE.sh" "update_course" "{\"course_id\":\"near1\", \"price\": 5}" "--account-id" "eamondangdev.testnet"
+Scheduling a call: dev-1691156143700-14312924586000.update_course({"course_id":"near1", "price": 5})
+Doing account.functionCall()
+Transaction Id 6ongG7HGfNJsAYAfYGUthqSXj5sHvwy1RjaHc7sVka8m
+To see the transaction in the transaction explorer, please open this url in your browser
+https://explorer.testnet.near.org/transactions/6ongG7HGfNJsAYAfYGUthqSXj5sHvwy1RjaHc7sVka8m
+''
+[cargo-make] INFO - Build Done in 11.65 seconds.
+#+end_example
+
+
+#+begin_src sh :results output
+cargo make call payment '{"course_id":"near1"}' --account-id eamondangdev.testnet --depositYocto 1000000000000000000000000
+#+end_src
+
+#+RESULTS:
+#+begin_example
+[cargo-make] INFO - cargo make 0.36.12
+[cargo-make] INFO - Calling cargo metadata to extract project info
+[cargo-make] INFO - Cargo metadata done
+[cargo-make] INFO - Project: near-bootcamp
+[cargo-make] INFO - Build File: Makefile.toml
+[cargo-make] INFO - Task: call
+[cargo-make] INFO - Profile: development
+[cargo-make] INFO - Running Task: legacy-migration
+[cargo-make] INFO - Running Task: call
+[cargo-make] INFO - Execute Command: "/usr/bin/env" "zsh" "/var/folders/ms/ch4m6m4919l6sdqfj5890q8r0000gn/T/fsio_Dm7rihKmjC.sh" "payment" "{\"course_id\":\"near1\"}" "--account-id" "eamondangdev.testnet" "--depositYocto" "1000000000000000000000000"
+Scheduling a call: dev-1691156143700-14312924586000.payment({"course_id":"near1"}) with attached 1 NEAR
+Doing account.functionCall()
+Receipts: B3Eeqh6FmPJTodLvJiuyiwF6457zmX3faN7XfYbXWNak, 5kQJrLNHsnwVbEHESqULFuDe8KG6oV51e8ZSzyYUVR8m
+ServerTransactionError: {"index":0,"kind":{"ExecutionError":"Smart contract panicked: panicked at 'assertion failed: `(left == right)`\n  left: `1`,\n right: `1000000000000000000000000`: Not equal price', src/lib.rs:133:5"}}
+    at Object.parseResultError (/Users/dangeamon/.nvm/versions/node/v18.17.0/lib/node_modules/near-cli/node_modules/near-api-js/lib/utils/rpc_errors.js:31:29)
+    at Account.signAndSendTransactionV2 (/Users/dangeamon/.nvm/versions/node/v18.17.0/lib/node_modules/near-cli/node_modules/near-api-js/lib/account.js:160:36)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async scheduleFunctionCall (/Users/dangeamon/.nvm/versions/node/v18.17.0/lib/node_modules/near-cli/commands/call.js:57:38)
+    at async Object.handler (/Users/dangeamon/.nvm/versions/node/v18.17.0/lib/node_modules/near-cli/utils/exit-on-error.js:52:9) {
+  type: 'FunctionCallError',
+  context: undefined,
+  index: 0,
+  kind: {
+    ExecutionError: "Smart contract panicked: panicked at 'assertion failed: `(left == right)`\n" +
+      '  left: `1`,\n' +
+      " right: `1000000000000000000000000`: Not equal price', src/lib.rs:133:5"
+  },
+  transaction_outcome: {
+    block_hash: 'EUa6gLFmiw4yGLq1UnP55dpV83zVonZJs4akoyiJEeZE',
+    id: '7Y8ERACK8efe5ZEceZFeVxRNEHYMGSrrMFA7xAVg8E5B',
+    outcome: {
+      executor_id: 'eamondangdev.testnet',
+      gas_burnt: 2427983606152,
+      logs: [],
+      metadata: [Object],
+      receipt_ids: [Array],
+      status: [Object],
+      tokens_burnt: '242798360615200000000'
+    },
+    proof: [ [Object], [Object] ]
+  }
+}
+[cargo-make] INFO - Build Done in 11.82 seconds.
+#+end_example
